@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace TestProject.Steps.Service2
 {
     class Step2
-
     {
     }
 }

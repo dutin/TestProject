@@ -37,12 +37,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Constants\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Helpers\" />
     <Folder Include="ResourceFiles\" />
-    <Folder Include="Steps\" />
-    <Folder Include="Tests\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -51,6 +47,18 @@
     <Reference Include="NuGet.Frameworks, Version=5.11.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\NuGet.Frameworks.5.11.0\lib\net472\NuGet.Frameworks.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\Service1Constants.cs" />
+    <Compile Include="Constants\Service2Constants.cs" />
+    <Compile Include="DTOs\Service1\DTO1.cs" />
+    <Compile Include="DTOs\Service2\DTO2.cs" />
+    <Compile Include="Factories\Service1\Factory1.cs" />
+    <Compile Include="Factories\Service2\Factory2.cs" />
+    <Compile Include="Steps\Service1\Step1.cs" />
+    <Compile Include="Steps\Service2\Step2.cs" />
+    <Compile Include="Tests\Service1\Test1.cs" />
+    <Compile Include="Tests\Service2\Test2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
