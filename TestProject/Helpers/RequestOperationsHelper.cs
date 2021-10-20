@@ -35,18 +35,7 @@ namespace TestProject.Helpers
                 request.AddQueryParameter(param.Key, param.Value);
             }
         }       
-
-        private void SetRequestProperties(RestRequest request, Method method, string basePath,
-           Dictionary<string, string> pathParams)
-        {
-            request.Resource = basePath;
-            request.Method = method;
-            request.RequestFormat = DataFormat.Json;
-            foreach (var param in pathParams)
-            {
-                request.AddUrlSegment(param.Key, param.Value);
-            }
-        }
+               
 
         private void AddBodyToRequest(RestRequest request, object body)
         {
