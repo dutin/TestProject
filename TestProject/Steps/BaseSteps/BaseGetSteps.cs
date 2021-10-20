@@ -15,7 +15,7 @@ namespace TestProject.Steps.BaseSteps
             return new RequestOperationsHelper(client).SendGetRequestAsObject<T>(basePath, pathParams, queryParams);
         }
 
-        public T SendGetWithOneQueryParam(string queryParam, string queryParamName, string queryParamValue)
+        public T SendGetWithOneQueryParam(string queryParamName, string queryParamValue)
         {
             var parameter = new Dictionary<string, string>()
             {
