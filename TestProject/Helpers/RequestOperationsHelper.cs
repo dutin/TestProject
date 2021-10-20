@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,36 +10,117 @@ namespace TestProject.Helpers
 {
     public class RequestOperationsHelper
     {
-        private readonly RestClient client;
+        private readonly RestClient _client;
+        private readonly RestRequest _request;
+
 
         public RequestOperationsHelper(RestClient client)
         {
-            this.client = client;
+            _client = client;
+            _request = new RestRequest();
         }
 
-        internal T SendGetRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
+        private void SetRequestProperties(RestRequest request, Method method, string basePath,
+            Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
         {
-            throw new NotImplementedException();
+            request.Resource = basePath;
+            request.Method = method; 
+            request.RequestFormat = DataFormat.Json;
+            foreach (var param in pathParams)
+            {
+                request.AddUrlSegment(param.Key, param.Value);
+            }
+            foreach (var param in queryParams)
+            {
+                request.AddQueryParameter(param.Key, param.Value);
+            }
+        }       
+
+        private void SetRequestProperties(RestRequest request, Method method, string basePath,
+           Dictionary<string, string> pathParams)
+        {
+            request.Resource = basePath;
+            request.Method = method;
+            request.RequestFormat = DataFormat.Json;
+            foreach (var param in pathParams)
+            {
+                request.AddUrlSegment(param.Key, param.Value);
+            }
         }
 
-        internal T SendGetRequestAsObject<T>(string basePath, Dictionary<string, string> param)
+        private void AddBodyToRequest(RestRequest request, object body)
         {
-            throw new NotImplementedException();
+            var jsonBody = new Parameter("application/json", JsonConvert.SerializeObject(body), ParameterType.RequestBody);
+            request.AddJsonBody(jsonBody);
+
         }
 
-        internal T SendDeleteRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        //for GET
+        public IRestResponse SendGetRequest(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
         {
-            throw new NotImplementedException();
+            SetRequestProperties(_request, Method.GET, basePath, pathParams, queryParams);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        } 
+        public T SendGetRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
+        {
+            var response = SendGetRequest(basePath, pathParams, queryParams).Content.ToString();
+            return JsonConvert.DeserializeObject<T>(response);
+        }
+        
+        //for DELETE
+        public IRestResponse SendDeleteRequest(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
+        {
+            SetRequestProperties(_request, Method.DELETE, basePath, pathParams, queryParams);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        }
+        public T SendDeleteRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
+        {
+            var response = SendDeleteRequest(basePath, pathParams,queryParams).Content.ToString();
+            return JsonConvert.DeserializeObject<T>(response);
         }
 
-        internal T SendPutRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        //for POST
+        public IRestResponse SendPostRequest(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
         {
-            throw new NotImplementedException();
+            SetRequestProperties(_request, Method.POST, basePath, pathParams, queryParams);
+            AddBodyToRequest(_request, body);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        }
+        public T SendPostRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        {            
+            var response = SendPostRequest(basePath, pathParams, queryParams, body).Content.ToString();            
+            return JsonConvert.DeserializeObject<T>(response);
         }
 
-        internal T SendPostRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        //for PUT
+        public IRestResponse SendPutRequest(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
         {
-            throw new NotImplementedException();
+            SetRequestProperties(_request, Method.PUT, basePath, pathParams, queryParams);
+            AddBodyToRequest(_request, body);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        }
+        public T SendPutRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        {
+            var response = SendPutRequest(basePath, pathParams, queryParams, body).Content.ToString();
+            return JsonConvert.DeserializeObject<T>(response);
+        }
+
+        //for PATCH
+        public IRestResponse SendPatchRequest(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        {
+            SetRequestProperties(_request, Method.PATCH, basePath, pathParams, queryParams);
+            AddBodyToRequest(_request, body);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        }
+        public T SendPatchRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
+        {
+            var response = SendPatchRequest(basePath, pathParams, queryParams, body).Content.ToString();
+            return JsonConvert.DeserializeObject<T>(response);
         }
     }
 }
