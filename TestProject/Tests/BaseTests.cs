@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using System.Configuration;
+using NUnit.Framework;
 
 namespace TestProject.Tests
 {
@@ -18,15 +19,11 @@ namespace TestProject.Tests
         public IEnumerable<Parameter> QueryParams;
         public IEnumerable<Parameter> PathParams;
 
+
         public BaseTests()
         {
             
-        }
-
-        [STAThread]
-        static void Main()
-        {
-        }
+        }       
 
     }
 }
