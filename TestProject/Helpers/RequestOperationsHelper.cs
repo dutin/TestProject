@@ -34,9 +34,19 @@ namespace TestProject.Helpers
             {
                 request.AddQueryParameter(param.Key, param.Value);
             }
-        }       
-               
-
+        }
+        private void SetRequestProperties(RestRequest request, Method method, string basePath,
+            Dictionary<string, string> pathParams)
+        {
+            request.Resource = basePath;
+            request.Method = method;
+            request.RequestFormat = DataFormat.Json;
+            foreach (var param in pathParams)
+            {
+                request.AddUrlSegment(param.Key, param.Value);
+            }
+            
+        }
         private void AddBodyToRequest(RestRequest request, object body)
         {
             var jsonBody = new Parameter("application/json", JsonConvert.SerializeObject(body), ParameterType.RequestBody);
@@ -50,7 +60,18 @@ namespace TestProject.Helpers
             SetRequestProperties(_request, Method.GET, basePath, pathParams, queryParams);
             IRestResponse response = _client.Execute(_request);
             return response;
-        } 
+        }
+        public IRestResponse SendGetRequest(string basePath, Dictionary<string, string> pathParams)
+        {
+            SetRequestProperties(_request, Method.GET, basePath, pathParams);
+            IRestResponse response = _client.Execute(_request);
+            return response;
+        }
+        internal T SendGetRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams)
+        {
+            var response = SendGetRequest(basePath, pathParams).Content.ToString();
+            return JsonConvert.DeserializeObject<T>(response);
+        }
         public T SendGetRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams)
         {
             var response = SendGetRequest(basePath, pathParams, queryParams).Content.ToString();
@@ -77,7 +98,8 @@ namespace TestProject.Helpers
             AddBodyToRequest(_request, body);
             IRestResponse response = _client.Execute(_request);
             return response;
-        }
+        }        
+
         public T SendPostRequestAsObject<T>(string basePath, Dictionary<string, string> pathParams, Dictionary<string, string> queryParams, object body)
         {            
             var response = SendPostRequest(basePath, pathParams, queryParams, body).Content.ToString();            
