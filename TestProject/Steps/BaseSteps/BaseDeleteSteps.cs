@@ -14,7 +14,7 @@ namespace TestProject.Steps.BaseSteps
         {
             var pathParams = new Dictionary<string, string>();
             var queryParams = new Dictionary<string, string>();
-            return new RequestOperationsHelper(client).SendDeleteRequestAsObject<T>(basePath, pathParams, queryParams, body);
+            return new RequestOperationsHelper(client).SendDeleteRequestAsObject<T>(basePath, pathParams, queryParams);
         }
     }
 }

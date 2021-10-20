@@ -23,5 +23,10 @@ namespace TestProject.Tests
             
         }
 
+        [STAThread]
+        static void Main()
+        {
+        }
+
     }
 }
