@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Factories\" />
     <Folder Include="ResourceFiles\" />
   </ItemGroup>
@@ -93,13 +92,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\PermissionsDTO.cs" />
+    <Compile Include="DTOs\RoleDTO.cs" />
     <Compile Include="Helpers\RequestOperationsHelper.cs" />
     <Compile Include="Steps\BaseSteps\BaseDeleteSteps.cs" />
     <Compile Include="Steps\BaseSteps\BaseGetSteps.cs" />
     <Compile Include="Steps\BaseSteps\BasePostSteps.cs" />
     <Compile Include="Steps\BaseSteps\BasePutSteps.cs" />
     <Compile Include="Steps\BaseSteps\BaseSteps.cs" />
+    <Compile Include="Steps\GetRolesByIDSteps.cs" />
+    <Compile Include="Steps\GetRolesSteps.cs" />
     <Compile Include="Steps\GetUsersSteps.cs" />
+    <Compile Include="Steps\PostRoleSteps.cs" />
+    <Compile Include="Steps\PutRoleSteps.cs" />
     <Compile Include="Tests\BaseTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

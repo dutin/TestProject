@@ -8,7 +8,8 @@ using TestProject.Steps.BaseSteps;
 
 namespace TestProject.Steps
 {
-    public class GetUsersSteps
+    public class PostRoleSteps : BasePostSteps<List<RoleDTO>>
     {
+        public PostRoleSteps(Uri baseUrl, string localToken) : base(baseUrl, localToken, "/roles") { }
     }
 }
